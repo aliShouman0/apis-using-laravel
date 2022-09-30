@@ -108,4 +108,32 @@ class MainController extends Controller
             ]);
         }
     }
+
+    function humanToProgramer($string)
+    {
+
+        //decbin("1587");
+        $pattern = "/\D+/";
+        $number = preg_split($pattern, $string);
+        foreach ($number as $i => $value) {
+            if ($value) {
+                $number[$i] = decbin($value);
+            }
+        }
+        $pattern = "/\d+/";
+        $text = preg_split($pattern, $string);
+        $res = "";
+        for ($i = 0; $i < count($number); $i++) {
+            if ($number[$i]) {
+                $res = $res . $number[$i];
+            } else  if (isset($text[$i])) {
+
+                $res = $res . $text[$i];
+            }
+        }
+
+        return response()->json([
+            "ProgramerText" => $res
+        ]);
+    }
 }
