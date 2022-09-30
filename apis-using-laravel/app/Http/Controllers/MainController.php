@@ -109,10 +109,10 @@ class MainController extends Controller
         }
     }
 
+
     function humanToProgramer($string)
     {
 
-        //decbin("1587");
         $pattern = "/\D+/";
         $number = preg_split($pattern, $string);
         foreach ($number as $i => $value) {
@@ -134,6 +134,57 @@ class MainController extends Controller
 
         return response()->json([
             "ProgramerText" => $res
+        ]);
+    }
+
+    function calculate($expression)
+    {
+        $value = explode(" ", $expression);
+        $res = "";
+        $operator = $value[0];
+        if (is_numeric($value[1]) && is_numeric($value[2])) {
+
+
+            switch ($operator) {
+                case '+':
+
+
+                    $res =  $value[1] + $value[2];
+                    break;
+
+                case '-':
+
+
+
+                    $res =   $value[1] - $value[2];
+                    break;
+
+                case '*':
+
+
+
+                    $res =   $value[1] * $value[2];
+                    break;
+
+                case '/':
+
+                    if ($value[2] != 0) {
+
+                        $res =   $value[1] / $value[2];
+                    } else {
+                        $res = "error";
+                    }
+                    break;
+
+                default:
+                    $res = "No answer.";
+                    break;
+            }
+        } else {
+            $res = "error";
+        }
+        return response()->json([
+            "result" => $res
         ]);
     }
 }
